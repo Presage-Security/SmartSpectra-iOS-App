@@ -1,4 +1,3 @@
-
 Sample iOS App/Test SmartSpectra SDK/Config.swift
 .DS_Store
 .swiftpm/.DS_Store
@@ -7,4 +6,36 @@ Sample iOS App/.DS_Store
 SDK/.DS_Store
 SDK/.swiftpm/xcode/package.xcworkspace/xcuserdata/billvivino.xcuserdatad/UserInterfaceState.xcuserstate
 Sample iOS App/Test SmartSpectra SDK.xcodeproj/project.xcworkspace/xcuserdata/billvivino.xcuserdatad/UserInterfaceState.xcuserstate
+# Xcode .gitignore
+# Compiled object files and app products
+*.o
+*.dylib
+*.so
+*.app
+*.ipa
+*.dSYM
+*.lproj/
+*.swiftdoc
+*.swiftmodule
 
+# Xcode files
+xcuserdata/
+project.xcworkspace/xcuserdata/
+project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+*.xcuserstate
+
+# Derived data and build output
+build/
+DerivedData/
+
+# Swift PM
+.swiftpm/xcode/package.xcworkspace/xcuserdata/
+.swiftpm/xcode/package.xcworkspace/xcshareddata/
+
+# OS generated files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
