@@ -30,6 +30,7 @@ To add SmartSpectra iOS SDK as a dependency to your Xcode project using SPM, fol
 
 1. Open your project in Xcode.
 2. Navigate to File > Swift Packages > Add Package Dependency...
+   - Note: some versions of Xcode this will be located under the Project > Package Dependencies Tab -> + button to go to step 3. 
 3. Paste the repository URL in the search bar and press Enter. https://github.com/Presage-Security/SmartSpectra-iOS-SDK
 4. Follow the prompts to choose the package options and add the package to your project.
 
@@ -37,10 +38,11 @@ To add SmartSpectra iOS SDK as a dependency to your Xcode project using SPM, fol
 ## API Key
 
 You'll need an API key to use the SmartSpectra iOS SDK. You can register for an account and obtain an API key at https://physiology.presagetech.com.
+In this example usage repo look for the `SmartSpectraButtonView(apiKey: "YOUR_API_KEY_HERE")` line of [ContentView.swift](Test%20SmartSpectra%20SDK/ContentView.swift) for location to add your key.
 
 ## Usage
 ### Example Code
-Please refer to [ContentView.swift](Test SmartSpectra SDK/ContentView.swift) for example usage and plotting of a pulse pleth waveform and breathing waveform.
+Please refer to [ContentView.swift](Test%20SmartSpectra%20SDK/ContentView.swift) for example usage and plotting of a pulse pleth waveform and breathing waveform.
 ### Integrating the SmartSpectra Button View and Adding API key
 
 You need to integrate the `SmartSpectraButtonView` into your app which is a button that allows the user to conduct a measurement and compute physiology metrics. Here's a simple example using SwiftUI:
@@ -177,9 +179,8 @@ For additional support, contact support@presagetech.com or submit a github issue
 
 
 ## Known Bugs
-- Will sometimes crash on initial launch after accepting camera permissions
-- HRV is not returning 
-- Back button on measurement view is not working 
+- HRV is not returning
+- First measurement might have lower accuracy for metrics due to a camera settings issue. Subsequent measurements camera performs correctly.  
 
 
 
