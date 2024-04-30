@@ -15,6 +15,7 @@
 		211296182BC4A4D000732D3D /* SmartSpectraIosSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 211296172BC4A4D000732D3D /* SmartSpectraIosSDK */; };
 		21BDEC622BC5A09C0083BC15 /* SmartSpectraIosSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 21BDEC612BC5A09C0083BC15 /* SmartSpectraIosSDK */; };
 		21D336352BC75E170076EB9E /* SmartSpectraIosSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 21D336342BC75E170076EB9E /* SmartSpectraIosSDK */; };
+		388B7E2C2BD9E4690024CF39 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 388B7E2B2BD9E4690024CF39 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		210E0AC42BC0B95000C48003 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		210E0AC62BC0B95000C48003 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		210E0AC92BC0B95000C48003 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		388B7E2B2BD9E4690024CF39 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +45,7 @@
 		210E0AB62BC0B94F00C48003 = {
 			isa = PBXGroup;
 			children = (
+				388B7E2B2BD9E4690024CF39 /* README.md */,
 				210E0AC12BC0B94F00C48003 /* Test SmartSpectra SDK */,
 				210E0AC02BC0B94F00C48003 /* Products */,
 			);
@@ -141,6 +144,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				388B7E2C2BD9E4690024CF39 /* README.md in Resources */,
 				210E0ACA2BC0B95000C48003 /* Preview Assets.xcassets in Resources */,
 				210E0AC72BC0B95000C48003 /* Assets.xcassets in Resources */,
 			);
@@ -288,7 +292,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Test SmartSpectra SDK/Preview Content\"";
-				DEVELOPMENT_TEAM = 54D6QF28QA;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "please give access";
@@ -297,12 +301,12 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.billvivino.Test-SmartSpectra-SDK-1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -318,7 +322,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Test SmartSpectra SDK/Preview Content\"";
-				DEVELOPMENT_TEAM = 54D6QF28QA;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "please give access";
@@ -327,12 +331,12 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.billvivino.Test-SmartSpectra-SDK-1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
