@@ -15,10 +15,9 @@ The app contained in this repo is an example of using the SmartSpectra SDK and s
 
 ## Requirements
 
-- iOS 13.0 or later
-- Swift 5.0 or later
-- Xcode 11.0 or later
-- Swift Tools 5.10 or later
+- iOS 15.0 or later
+- Xcode 15.0 or later
+- Not usable with emulators 
 
 ## Installation
 
@@ -29,10 +28,10 @@ The Swift Package Manager (SPM) is a tool for managing the distribution of Swift
 To add SmartSpectra iOS SDK as a dependency to your Xcode project using SPM, follow these steps:
 
 1. Open your project in Xcode.
-2. Navigate to File > Swift Packages > Add Package Dependency...
-   - Note: some versions of Xcode this will be located under the Project > Package Dependencies Tab -> + button to go to step 3. 
-3. Paste the repository URL in the search bar and press Enter. https://github.com/Presage-Security/SmartSpectra-iOS-SDK
-4. Follow the prompts to choose the package options and add the package to your project.
+2. Go to Project -> Package Dependencies Tab -> + button 
+   - **Note**: Some Version of Xcode Navigate to File > Swift Packages > Add Package Dependency
+3. Paste the repository URL for SmartSpectra iOS SDK in the search bar and press Enter. URL is https://github.com/Presage-Security/SmartSpectra-iOS-SDK
+4. Select Add Package
 
 
 ## API Key
@@ -43,6 +42,10 @@ In this example usage repo look for the `SmartSpectraButtonView(apiKey: "YOUR_AP
 ## Usage
 ### Example Code
 Please refer to [ContentView.swift](Test%20SmartSpectra%20SDK/ContentView.swift) for example usage and plotting of a pulse pleth waveform and breathing waveform.
+- **Note**: to use this example repo make sure to under "Signing and Capabilities" of Targets "Test SmartSpectra" to set:
+  - Team: Your desired developer profile
+  - Bundle Identifier: Your desired bundle identifier such as: `com.johnsmith.smartspectratest`
+  - If you are not a registered developer for the App Store follow the prompt to navigate to Settings > General > VPN & Device Management, then select your developer App certificate to trust it on your iOS device. 
 ### Integrating the SmartSpectra Button View and Adding API key
 
 You need to integrate the `SmartSpectraButtonView` into your app which is a button that allows the user to conduct a measurement and compute physiology metrics. Here's a simple example using SwiftUI:
