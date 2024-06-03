@@ -12,18 +12,16 @@ platform :ios do
         initial_build_number: 7,
         version: get_version_number(xcodeproj: "Test SmartSpectra SDK.xcodeproj"),
         live: false,
-	app_identifier: "com.presage.smart.SDK.example.Example"
       ) + 1,
     )
     # Set up Distribution code signing and build the app
-    match(app_identifier: "com.presage.smart.SDK.example.Example")
+    match
     gym(scheme: "Test SmartSpectra SDK")
     # Upload the binary to App Store Connect
     #app_store_connect_api_key
     upload_to_testflight(
       distribute_external: false,
       notify_external_testers: false,
-      app_identifier: "com.presage.smart.SDK.example.Example",
       changelog: "Hello World CI/CD"
     )
   end
