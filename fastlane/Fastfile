@@ -17,13 +17,12 @@ platform :ios do
       ) + 1,
     )
     # Set up Distribution code signing and build the app
-    match(app_identifier: "com.presage.smart.SDK.example.Example", team_id: "54D6QF28QA")
+    match(app_identifier: "com.presage.smart.SDK.example.Example")
     gym(scheme: "Test SmartSpectra SDK")
     # Upload the binary to App Store Connect
     #app_store_connect_api_key
     upload_to_testflight(
       username: "bryce@presagesecurity.com",
-      team_id: "54D6QF28QA",
       distribute_external: false,
       notify_external_testers: false,
       app_identifier: "com.presage.smart.SDK.example.Example",
