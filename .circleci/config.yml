@@ -15,6 +15,7 @@ jobs:
       - aws-cli/setup:
           profile_name: default
           role_arn: "arn:aws:iam::994342159206:role/circleci"
+      - run: aws s3 ls
       - checkout
       - run: bundle install
       - run:
