@@ -17,7 +17,6 @@ platform :ios do
     )
     # Set up Distribution code signing and build the app
     gym(scheme: "Test SmartSpectra SDK")
-    # Upload the binary to App Store Connect
     #app_store_connect_api_key
     upload_to_testflight(
       distribute_external: false,
