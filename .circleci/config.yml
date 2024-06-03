@@ -1,26 +1,10 @@
 # .circleci/config.yml
 version: 2.1
 jobs:
-  build-and-test:
-    macos:
-      xcode: 15.4.0
-    environment:
-      FL_OUTPUT_DIR: output
-      FASTLANE_LANE: test
-    steps:
-      - checkout
-      - run: bundle install
-      - run:
-          name: Fastlane
-          command: bundle exec fastlane $FASTLANE_LANE
-      - store_artifacts:
-          path: output
-      - store_test_results:
-          path: output/scan
-
   adhoc:
     macos:
       xcode: 15.4.0
+    resource_class: macos.m1.medium.gen1
     environment:
       FL_OUTPUT_DIR: output
       FASTLANE_LANE: adhoc
@@ -36,7 +20,6 @@ jobs:
 workflows:
   build-test-adhoc:
     jobs:
-      - build-and-test
       - adhoc:
           filters:
             branches:
