@@ -7,6 +7,7 @@ platform :ios do
 
   desc "Upload Release to App Store"
   lane :upload_release do
+    match
     increment_build_number(
       build_number: app_store_build_number(
         initial_build_number: 7,
@@ -15,7 +16,6 @@ platform :ios do
       ) + 1,
     )
     # Set up Distribution code signing and build the app
-    match
     gym(scheme: "Test SmartSpectra SDK")
     # Upload the binary to App Store Connect
     #app_store_connect_api_key
