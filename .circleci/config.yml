@@ -10,6 +10,9 @@ jobs:
       FL_OUTPUT_DIR: output
       FASTLANE_LANE: upload_release
     steps:
+      - aws-cli/setup:
+          profile_name: default
+          role_arn: "arn:aws:iam::994342159206:role/circleci"
       - checkout
       - run: bundle install
       - run:
