@@ -11,6 +11,7 @@ jobs:
       FL_OUTPUT_DIR: output
       FASTLANE_LANE: upload_release
     steps:
+      - macos/install-rosetta
       - aws-cli/setup:
           profile_name: default
           role_arn: "arn:aws:iam::994342159206:role/circleci"
