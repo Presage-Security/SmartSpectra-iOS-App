@@ -7,7 +7,7 @@ jobs:
     resource_class: macos.m1.medium.gen1
     environment:
       FL_OUTPUT_DIR: output
-      FASTLANE_LANE: adhoc
+      FASTLANE_LANE: upload_release
     steps:
       - checkout
       - run: bundle install
@@ -24,5 +24,3 @@ workflows:
           filters:
             branches:
               only: cicd
-          requires:
-            - build-and-test
