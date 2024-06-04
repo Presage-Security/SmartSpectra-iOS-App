@@ -9,9 +9,9 @@ platform :ios do
   lane :upload_release do
     xcversion(version: "15.4")
 
-    #update_code_signing_settings(
-    #  use_automatic_signing: false
-    #)
+    update_code_signing_settings(
+      use_automatic_signing: false
+    )
 
     match
 
