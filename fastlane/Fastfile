@@ -29,18 +29,12 @@ platform :ios do
       ) + 1,
     )
 
-    update_code_signing_settings(
-    	use_automatic_signing: false,
-    	path: "Test SmartSpectra SDK.xcodeproj",
-    )
-
     # Set up Distribution code signing and build the app
-    gym(scheme: "Test SmartSpectra SDK", export_method: "app-store", xcargs: "-allowProvisioningUpdates")
+    gym(scheme: "Test SmartSpectra SDK", export_method: "app-store")
 
     upload_to_testflight(
       distribute_external: false,
       notify_external_testers: false,
-      changelog: "Hello World CI/CD"
     )
   end
 end
