@@ -20,7 +20,7 @@ platform :ios do
 
     increment_build_number(
       build_number: app_store_build_number(
-        api_key: api_key
+        api_key: api_key,
         initial_build_number: 7,
         version: get_version_number(xcodeproj: "Test SmartSpectra SDK.xcodeproj"),
         live: false,
