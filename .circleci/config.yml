@@ -16,7 +16,7 @@ jobs:
           profile_name: default
           role_arn: "arn:aws:iam::994342159206:role/circleci"
       - checkout
-      - run: sed -i "s|YOUR_API_KEY_HERE|$PHYSIOLOGY_API_KEY|g" Test\ SmartSpectra\ SDK/ContentView.swift
+      - run: sed -i "s|YOUR_API_KEY_HERE|$PHYSIOLOGY_API_KEY|g" "Test\ SmartSpectra\ SDK/ContentView.swift"
       - run: cat Test\ SmartSpectra\ SDK/ContentView.swift
       - run: bundle install
       - run:
