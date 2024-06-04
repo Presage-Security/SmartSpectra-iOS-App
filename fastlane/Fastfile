@@ -11,6 +11,11 @@ platform :ios do
 
     match
 
+    update_code_signing_settings(
+      use_automatic_signing: true,
+      path: "Test SmartSpectra SDK.xcodeproj"
+   )
+
     asc_key_content = ENV["APP_STORE_CONNECT_API_KEY_CONTENT"]
     asc_issuer_id = ENV["APP_STORE_CONNECT_ISSUER_ID"]
     asc_key_id = ENV["APP_STORE_CONNECT_API_KEY_ID"]
