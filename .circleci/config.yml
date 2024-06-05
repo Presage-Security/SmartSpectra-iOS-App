@@ -2,6 +2,8 @@ version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@4.0
   macos: circleci/macos@2.4.1
+  vulnerability-checker: whitesource/vulnerability-checker@19.10.1
+
 jobs:
   build:
     macos:
@@ -16,6 +18,8 @@ jobs:
           profile_name: default
           role_arn: "arn:aws:iam::994342159206:role/circleci"
       - checkout
+      - vulnerability-checker/scan:
+          directory: .
       - run: cat Test\ SmartSpectra\ SDK/ContentView.swift | sed "s|YOUR_API_KEY_HERE|$PHYSIOLOGY_API_KEY|g" > tmp
       - run: mv tmp Test\ SmartSpectra\ SDK/ContentView.swift
       - run: cat Test\ SmartSpectra\ SDK/ContentView.swift
