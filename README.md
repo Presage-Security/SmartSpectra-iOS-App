@@ -17,7 +17,7 @@ The app contained in this repo is an example of using the SmartSpectra SDK and s
 
 - iOS 15.0 or later
 - Xcode 15.0 or later
-- Not usable with emulators 
+- Not usable with emulators or the Xcode simulator
 
 ## Installation
 
@@ -25,14 +25,20 @@ The app contained in this repo is an example of using the SmartSpectra SDK and s
 
 The Swift Package Manager (SPM) is a tool for managing the distribution of Swift code. It automates the process of downloading, compiling, and linking dependencies.
 
-To add SmartSpectra iOS SDK as a dependency to your Xcode project using SPM, follow these steps:
-
-1. Open your project in Xcode.
-2. Go to Project -> Package Dependencies Tab -> + button 
-   - **Note**: Some Version of Xcode Navigate to File > Swift Packages > Add Package Dependency
-3. Paste the repository URL for SmartSpectra iOS SDK in the search bar and press Enter. URL is https://github.com/Presage-Security/SmartSpectra-iOS-SDK
-4. Select Add Package
-
+To add SmartSpectra iOS SDK as a dependency to your Xcode project using SPM, follow either of these two sets of steps within Xcode:    
+    Method 1:
+    Go to File -> "Add Package Dependencies..."
+    In the "Search or Enter Package URL" field, enter the URL "https://github.com/Presage-Security/SmartSpectra-iOS-SDK"
+    For the "Dependency Rule," select "Branch" and then "main."
+    For "Add to Target," select your project.
+    
+    Method 2:
+    1. Open your project in Xcode.
+    2. Select your project in the Project Navigator, then click on the project in the Project/Targets Pane.
+    2. Go to the Package Dependencies Tab, then click the "+" button 
+       - **Note**: Some Version of Xcode Navigate to File > Swift Packages > Add Package Dependency
+    3. Paste the repository URL for SmartSpectra iOS SDK in the search bar and press Enter. URL is https://github.com/Presage-Security/SmartSpectra-iOS-SDK
+    4. Select Add Package
 
 ## API Key
 
@@ -175,6 +181,8 @@ amplitude: amplitude of breathing waveform
 
 baseline: baseline of breathing waveform
 
+## Device Orientation
+We do not recommend landscape support. We recommend removing the "Landscape Left," "Landscape Right," and "Portrait Upside Down" modes from your supported interface orientations.
 
 ## Troubleshooting
 For additional support, contact support@presagetech.com or submit a github issue (https://github.com/Presage-Security/SmartSpectra-iOS-App/issues)
