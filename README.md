@@ -31,6 +31,7 @@ To add SmartSpectra iOS SDK as a dependency to your Xcode project using SPM, fol
     In the "Search or Enter Package URL" field, enter the URL "https://github.com/Presage-Security/SmartSpectra-iOS-SDK"
     For the "Dependency Rule," select "Branch" and then "main."
     For "Add to Target," select your project.
+    **Note: Select feat/60_second_sdk for the branch if wanting 60 second measurements.**
     
     Method 2:
     1. Open your project in Xcode.
