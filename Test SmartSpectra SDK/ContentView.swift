@@ -1,5 +1,3 @@
-//  ContentView.swift
-//  Test SmartSpectra SDK
 import SwiftUI
 import SmartSpectraIosSDK
 
@@ -9,91 +7,161 @@ struct ContentView: View {
         VStack {
             // Add button to view and put in API Key
             SmartSpectraButtonView(apiKey: "YOUR_API_KEY_HERE")
-            // Add Strict Breathing Rate and Pulse Rate View
+                .frame(height: 125)
+            // Add in the result view of the Strict Pulse and Breathing Rates
             SmartSpectraSwiftUIView()
-            // If you would like to do something with the Strict Breathing Rate and Pulse Rate Values
-            // Text("Strict Pulse Rate Value: \(String(format: "%.2f", sdk.strictPulseRate))")
-            // Text("Stric Breathing Rate Value: \(String(format: "%.2f", sdk.strictBreathingRate))")
             
-            // Example of extracting, sorting and plotting the Pulse Pleth Waveform from sdk.
-            if !SmartSpectraIosSDK.shared.pulsePleth.isEmpty {
-                LineChartView(
-                    orderedPairs: SmartSpectraIosSDK.shared.pulsePleth
-                ).frame(height: 200)
-            } else {
-                // No Data avialable so display a flat line
-                createFlatLine()
-            }
-            
-            // Example of extracting, sorting and plotting the Pulse Pleth Waveform from sdk.
-            // plot the data
-            if !SmartSpectraIosSDK.shared.breathingPleth.isEmpty {
-                LineChartView(
-                    orderedPairs: SmartSpectraIosSDK.shared.breathingPleth
-                ).frame(height: 200)
-            } else {
-                // No Data available so display a flat line
-                createFlatLine()
+            // Scrolling view to view additional metrics from measurment
+            ScrollView {
+                VStack {
+                 //  To print additional meta data of the analysis
+                 //  Text("Upload Date: \(sdk.uploadDate ?? "")")
+                 //  Text("User ID: \(sdk.userID ?? "")")
+                 //  Text("API Version: \(sdk.version ?? "")")
+                    
+                 //  for hrv analysis this will only be producable with 60 second version of SDK
+                    if let hrvValue = sdk.hrv.first?.value {
+                        Text("HRV (ms): \(hrvValue)")
+                    }
+                    LineChartView(orderedPairs: sdk.pulsePleth, title: "Pulse Pleth", xLabel: "Time", yLabel: "Value", showYTicks: false).frame(height: 200)
+                    LineChartView(orderedPairs: sdk.breathingPleth, title: "Breathing Pleth", xLabel: "Time", yLabel: "Value", showYTicks: false).frame(height: 200)
+                    LineChartView(orderedPairs: sdk.pulseValues, title: "Pulse Rates", xLabel: "Time", yLabel: "Value", showYTicks: true).frame(height: 200)
+                    LineChartView(orderedPairs: sdk.pulseConfidence, title: "Pulse Rate Confidence", xLabel: "Time", yLabel: "Value", showYTicks: true).frame(height: 200)
+                    LineChartView(orderedPairs: sdk.breathingValues, title: "Breathing Rates", xLabel: "Time", yLabel: "Value", showYTicks: true).frame(height: 200)
+                    LineChartView(orderedPairs: sdk.breathingConfidence, title: "Breathing Rate Confidence", xLabel: "Time", yLabel: "Value", showYTicks: true).frame(height: 200)
+                    LineChartView(orderedPairs: sdk.breathingAmplitude, title: "Breathing Amplitude", xLabel: "Time", yLabel: "Value", showYTicks: true).frame(height: 200)
+                    LineChartView(orderedPairs: sdk.apnea, title: "Apnea", xLabel: "Time", yLabel: "Value", showYTicks: true).frame(height: 200)
+                    LineChartView(orderedPairs: sdk.breathingBaseline, title: "Breathing Baseline", xLabel: "Time", yLabel: "Value", showYTicks: true).frame(height: 200)
+                    LineChartView(orderedPairs: sdk.phasic, title: "Phasic", xLabel: "Time", yLabel: "Value", showYTicks: true).frame(height: 200)
+                    LineChartView(orderedPairs: sdk.rrl, title: "RRL", xLabel: "Time", yLabel: "Value", showYTicks: true).frame(height: 200)
+                    LineChartView(orderedPairs: sdk.ie, title: "IE", xLabel: "Time", yLabel: "Value", showYTicks: true).frame(height: 200)
+                }
             }
         }
         .padding()
     }
 }
+
 #Preview {
     ContentView()
 }
 
 // Below are some helper functions to extract and visualize data from SmartSpectra
 
-/// `LineChartView` renders a line chart based on provided time and value data.
-/// This View normalizes time and value data points to fit within the view's dimensions,
-/// ensuring that the line chart accurately represents relative differences in data across its range.
+/// LineChartView renders a line chart based on provided time and value data.
+/// This View displays time and value data points to fit within the view's dimensions.
 struct LineChartView: View {
     let orderedPairs: [(time: Double, value: Double)]
-    
-    private var normalizedData: [(x: Double, y: Double)] {        
-        guard let maxTime = orderedPairs.max(by: {$0.time < $1.time})?.time else { return [] }
-        guard let maxValue = orderedPairs.max(by: {$0.value < $1.value}) else { return [] }
-        guard let minValue = orderedPairs.min(by: {$0.value < $1.value}) else { return [] }
-        let valueRange = maxValue.value - minValue.value // The range of your HR values
+    let title: String
+    let xLabel: String
+    let yLabel: String
+    let showYTicks: Bool
 
-        return orderedPairs.map { orderedPair in
-            let normalizedX = Double(orderedPair.time) / maxTime
-            let normalizedY: Double
-            if valueRange == 0 { // Check if valueRange is zero
-                normalizedY = 0.5 // Center the line if all values are the same
-            } else {
-                normalizedY = (orderedPair.value - minValue.value) / valueRange // Normalize y-value to be within 0...1, adjusting for minValue and valueRange
-            }
-            return (x: normalizedX, y: normalizedY)
-        }
+    private let paddingFactor: Double = 0.05 // 5% padding on each side
+    private let minimumRange: Double = 0.1 // Minimum range for y-axis
+
+    private var minXValue: Double {
+        orderedPairs.min(by: { $0.time < $1.time })?.time ?? 0
     }
-    
+
+    private var maxXValue: Double {
+        orderedPairs.max(by: { $0.time < $1.time })?.time ?? 1
+    }
+
+    private var minYValue: Double {
+        orderedPairs.min(by: { $0.value < $1.value })?.value ?? 0
+    }
+
+    private var maxYValue: Double {
+        orderedPairs.max(by: { $0.value < $1.value })?.value ?? 1
+    }
+
+    private var minX: Double {
+        return minXValue - paddingFactor * (maxXValue - minXValue)
+    }
+
+    private var maxX: Double {
+        return maxXValue + paddingFactor * (maxXValue - minXValue)
+    }
+
+    private var adjustedMinY: Double {
+        minYValue - paddingFactor * max(maxYValue - minYValue, minimumRange)
+    }
+
+    private var adjustedMaxY: Double {
+        maxYValue + paddingFactor * max(maxYValue - minYValue, minimumRange)
+    }
+
+    private var xTickValues: [Double] {
+        let strideSize = max(1.0, (maxX - minX) / 10) // Ensure X-axis ticks have a minimum stride size
+        return Array(stride(from: ceil(minX), through: floor(maxX), by: strideSize))
+    }
+
+    private var yTickValues: [Double] {
+        let numberOfTicks = 4
+        let range = adjustedMaxY - adjustedMinY
+        let strideSize = range / Double(numberOfTicks - 1)
+        return range == 0 ? Array(repeating: adjustedMinY, count: numberOfTicks) : Array(stride(from: adjustedMinY, through: adjustedMaxY, by: strideSize))
+    }
+
     var body: some View {
-        Canvas { context, size in
-            var path = Path()
-            
-            let data = normalizedData
-            for (index, point) in data.enumerated() {
-                let xPosition = point.x * size.width
-                // Adjust yPosition calculation to utilize the entire height
-                let yPosition = (1 - point.y) * size.height // Use the normalized y-value
-                
-                if index == 0 {
-                    path.move(to: CGPoint(x: xPosition, y: yPosition))
-                } else {
-                    path.addLine(to: CGPoint(x: xPosition, y: yPosition))
+        VStack {
+            Text(title).font(.headline)
+            GeometryReader { geometry in
+                VStack {
+                    Canvas { context, size in
+                        var path = Path()
+
+                        for (index, point) in orderedPairs.enumerated() {
+                            let xPosition = (point.time - minX) / (maxX - minX) * size.width
+                            let yPosition = adjustedMaxY == adjustedMinY ? size.height / 2 : (1 - (point.value - adjustedMinY) / (adjustedMaxY - adjustedMinY)) * (size.height - 20) + 10
+
+                            if index == 0 {
+                                path.move(to: CGPoint(x: xPosition, y: yPosition))
+                            } else {
+                                path.addLine(to: CGPoint(x: xPosition, y: yPosition))
+                            }
+                        }
+
+                        context.stroke(path, with: .color(.red), lineWidth: 2)
+
+                        // Draw X tick marks and labels inside the box plot, skip the first one
+                        for (index, xTick) in xTickValues.enumerated() {
+                            if index > 0 {
+                                let xPosition = (xTick - minX) / (maxX - minX) * size.width
+                                context.stroke(Path { path in
+                                    path.move(to: CGPoint(x: xPosition, y: size.height))
+                                    path.addLine(to: CGPoint(x: xPosition, y: size.height - 5))
+                                }, with: .color(.black), lineWidth: 1)
+                                context.draw(Text(String(format: "%.0f", xTick)).font(.caption), at: CGPoint(x: xPosition, y: size.height - 20), anchor: .top)
+                            }
+                        }
+
+                        // Draw Y tick marks and labels inside the box plot
+                        if showYTicks {
+                            let yTicks = yTickValues
+                            let range = adjustedMaxY - adjustedMinY
+                            let strideSize = range / Double(yTicks.count - 1)
+                            for yTick in yTicks {
+                                let yPosition = adjustedMaxY == adjustedMinY ? size.height / 2 : (1 - (yTick - adjustedMinY) / (adjustedMaxY - adjustedMinY)) * (size.height - 20) + 10
+                                context.stroke(Path { path in
+                                    path.move(to: CGPoint(x: 0, y: yPosition))
+                                    path.addLine(to: CGPoint(x: 5, y: yPosition))
+                                }, with: .color(.black), lineWidth: 1)
+                                let formatString = strideSize < 1 ? "%.2f" : "%.1f"
+                                context.draw(Text(String(format: formatString, yTick)).font(.caption), at: CGPoint(x: 10, y: yPosition), anchor: .leading)
+                            }
+                        }
+                    }
+                    .border(Color.gray)
+
+                    HStack {
+                        Spacer()
+                        Text(xLabel).font(.caption).padding([.top, .trailing])
+                        Spacer()
+                    }
                 }
             }
-            
-            context.stroke(path, with: .color(.red), lineWidth: 2)
         }
     }
-}
-
-func createFlatLine() -> some View {
-    LineChartView(
-        orderedPairs: (1...10).map { (0.0, Double($0)) }
-    )
-    .frame(height: 200) // Sets the height of the LineChartView
 }
