@@ -1,0 +1,37 @@
+version: 2.1
+orbs:
+  aws-cli: circleci/aws-cli@4.0
+  macos: circleci/macos@2.4.1
+
+
+jobs:
+  build:
+    macos:
+      xcode: 15.4.0
+    resource_class: macos.m1.medium.gen1
+    environment:
+      FL_OUTPUT_DIR: output
+      FASTLANE_LANE: upload_release
+    steps:
+      - macos/install-rosetta
+      - aws-cli/setup:
+          profile_name: default
+          role_arn: "arn:aws:iam::994342159206:role/circleci"
+      - checkout
+      - run: cat Test\ SmartSpectra\ SDK/ContentView.swift | sed "s|YOUR_API_KEY_HERE|$PHYSIOLOGY_API_KEY|g" > tmp
+      - run: mv tmp Test\ SmartSpectra\ SDK/ContentView.swift
+      - run: cat Test\ SmartSpectra\ SDK/ContentView.swift
+      - run: bundle install
+      - run:
+          name: Fastlane
+          command: bundle exec fastlane $FASTLANE_LANE
+      - store_artifacts:
+          path: output
+
+workflows:
+  build:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: main
