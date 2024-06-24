@@ -25,13 +25,13 @@ The app contained in this repo is an example of using the SmartSpectra SDK and s
 
 The Swift Package Manager (SPM) is a tool for managing the distribution of Swift code. It automates the process of downloading, compiling, and linking dependencies.
 
-To add SmartSpectra iOS SDK as a dependency to your Xcode project using SPM, follow either of these two sets of steps within Xcode:    
+To add SmartSpectra iOS SDK as a dependency to your Xcode project using SPM, follow either of these two sets of steps within Xcode:
 
 - Method 1:
 Go to File -> "Add Package Dependencies..."
 In the "Search or Enter Package URL" field, enter the URL "https://github.com/Presage-Security/SmartSpectra-iOS-SDK"
 For the "Dependency Rule," select "Branch" and then "main."
-For "Add to Target," select your project. 
+For "Add to Target," select your project.
 
 
 - Method 2: Open your project in Xcode.  Select your project in the Project Navigator, then click on the project in the Project/Targets Pane. Go to the Package Dependencies Tab, then click the "+" button 
@@ -52,7 +52,7 @@ Please refer to [ContentView.swift](Test%20SmartSpectra%20SDK/ContentView.swift)
 - **Note**: to use this example repo make sure to under "Signing and Capabilities" of Targets "Test SmartSpectra" to set:
   - Team: Your desired developer profile
   - Bundle Identifier: Your desired bundle identifier such as: `com.johnsmith.smartspectratest`
-  - If you are not a registered developer for the App Store follow the prompt to navigate to Settings > General > VPN & Device Management, then select your developer App certificate to trust it on your iOS device. 
+  - If you are not a registered developer for the App Store follow the prompt to navigate to Settings > General > VPN & Device Management, then select your developer App certificate to trust it on your iOS device.
 ### Integrating the SmartSpectra Button View and Adding API key
 
 You need to integrate the `SmartSpectraButtonView` into your app which is a button that allows the user to conduct a measurement and compute physiology metrics. Here's a simple example using SwiftUI:
@@ -83,24 +83,24 @@ To extract metrics data from the SDK import the following into your content view
 
 -  `sdk.strictPulseRate` - (Double) the strict pulse rate (high confidence average over 30 seconds)
 -  `sdk.strictBreathingRate` - (Double) the strict breathing rate (high confidence average over 30 seconds)
--  `sdk.pulseValues` - [(time: Double, value: Double)] Pulse rates 
+-  `sdk.pulseValues` - [(time: Double, value: Double)] Pulse rates
 - `sdk.pulseConfidence` - [(time: Double, value: Double)] Pulse rate confidences
-- `sdk.pulsePleth` - [(time: Double, value: Double)] Pulse waveform or pleth 
+- `sdk.pulsePleth` - [(time: Double, value: Double)] Pulse waveform or pleth
 - `sdk.breathingValues` - [(time: Double, value: Double)] Breathing rates
 - `sdk.breathingPleth` - [(time: Double, value: Double)] Breathing movement waveform or pleth
 - `sdk.breathingAmplitude` - [(time: Double, value: Doube)] Breathing rate confidences
 - `sdk.apnea` - [(time: Double, value: Double)] Apnea detection
 - `sdk.breathingBaseline` - [(time: Double, value: Double)] Breathing baseline
 - `sdk.phasic` - [(time: Double, value: Double)] Phasic (ie changes in relative blood pressure)
-- `sdk.rrl` - [(time: Double, value: Double)] Respiratory line length 
-- `sdk.ie` - [(time: Double, value: Double)] The inhale exhale ratio 
+- `sdk.rrl` - [(time: Double, value: Double)] Respiratory line length
+- `sdk.ie` - [(time: Double, value: Double)] The inhale exhale ratio
 - `sdk.uploadDate` - (String) upload date time
 - `sdk.version` - (String)  the version of API used
 - `sdk.userID` - (String)  the user ID
 -  `sdk.jsonMetrics` - (Dictionary) containing the metrics available according to your api key. See Data Format below for the contents and structure. **Warning: json structure is subject to change use at your own risk.**
 
 ### Data Format
-`sdk.jsonMetrics` is structured as follows: 
+`sdk.jsonMetrics` is structured as follows:
 ```json
 {
   "error": "",
@@ -180,8 +180,3 @@ For additional support, contact support@presagetech.com or submit a github issue
 
 ## Known Bugs
 - HRV is not returning.
-
-
-
-
-
