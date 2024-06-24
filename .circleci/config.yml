@@ -20,6 +20,7 @@ jobs:
       - checkout
       - run: cat Test\ SmartSpectra\ SDK/ContentView.swift | sed "s|YOUR_API_KEY_HERE|$PHYSIOLOGY_API_KEY|g" > tmp
       - run: mv tmp Test\ SmartSpectra\ SDK/ContentView.swift
+      - run: cp .circleci/project.pbxproj Test\ SmartSpectra\ SDK.xcodeproj/project.pbxproj
       - run: cat Test\ SmartSpectra\ SDK/ContentView.swift
       - run: bundle install
       - run:
