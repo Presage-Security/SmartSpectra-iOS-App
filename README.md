@@ -26,20 +26,20 @@ The app contained in this repo is an example of using the SmartSpectra SDK and s
 The Swift Package Manager (SPM) is a tool for managing the distribution of Swift code. It automates the process of downloading, compiling, and linking dependencies.
 
 To add SmartSpectra iOS SDK as a dependency to your Xcode project using SPM, follow either of these two sets of steps within Xcode:    
-    Method 1:
-    Go to File -> "Add Package Dependencies..."
-    In the "Search or Enter Package URL" field, enter the URL "https://github.com/Presage-Security/SmartSpectra-iOS-SDK"
-    For the "Dependency Rule," select "Branch" and then "main."
-    For "Add to Target," select your project.
-    **Note: Select feat/60_second_sdk for the branch if wanting 60 second measurements.**
-    
-    Method 2:
-    1. Open your project in Xcode.
-    2. Select your project in the Project Navigator, then click on the project in the Project/Targets Pane.
-    2. Go to the Package Dependencies Tab, then click the "+" button 
-       - **Note**: Some Version of Xcode Navigate to File > Swift Packages > Add Package Dependency
-    3. Paste the repository URL for SmartSpectra iOS SDK in the search bar and press Enter. URL is https://github.com/Presage-Security/SmartSpectra-iOS-SDK
-    4. Select Add Package
+
+- Method 1:
+Go to File -> "Add Package Dependencies..."
+In the "Search or Enter Package URL" field, enter the URL "https://github.com/Presage-Security/SmartSpectra-iOS-SDK"
+For the "Dependency Rule," select "Branch" and then "main."
+For "Add to Target," select your project. 
+
+
+- Method 2: Open your project in Xcode.  Select your project in the Project Navigator, then click on the project in the Project/Targets Pane. Go to the Package Dependencies Tab, then click the "+" button 
+   - **Note**: Some Version of Xcode Navigate to File > Swift Packages > Add Package Dependency
+Paste the repository URL for SmartSpectra iOS SDK in the search bar and press Enter. URL is https://github.com/Presage-Security/SmartSpectra-iOS-SDK.
+Select Add Package
+
+**Note: Select feat/60_second_sdk for the branch if wanting 60 second measurements.**
 
 ## API Key
 
@@ -79,11 +79,25 @@ To extract metrics data from the SDK import the following into your content view
 ```Swift
 @ObservedObject var sdk = SmartSpectraIosSDK.shared
 ```
-`SmartSpectraIosSDK.shared` has 3 observable objects:
+`SmartSpectraIosSDK.shared` has 13 observable objects:
 
--  `sdk.strictPulseRate` - (Double) the strict Pulse Rate
--  `sdk.strictBreathingRate` - (Double) the strict Breathing Rate
--  `sdk.jsonMetrics` - (Dictionary) containing the metrics available according to your api key. See Data Format below for the contents and structure.
+-  `sdk.strictPulseRate` - (Double) the strict pulse rate (high confidence average over 30 seconds)
+-  `sdk.strictBreathingRate` - (Double) the strict breathing rate (high confidence average over 30 seconds)
+-  `sdk.pulseValues` - [(time: Double, value: Double)] Pulse rates 
+- `sdk.pulseConfidence` - [(time: Double, value: Double)] Pulse rate confidences
+- `sdk.pulsePleth` - [(time: Double, value: Double)] Pulse waveform or pleth 
+- `sdk.breathingValues` - [(time: Double, value: Double)] Breathing rates
+- `sdk.breathingPleth` - [(time: Double, value: Double)] Breathing movement waveform or pleth
+- `sdk.breathingAmplitude` - [(time: Double, value: Doube)] Breathing rate confidences
+- `sdk.apnea` - [(time: Double, value: Double)] Apnea detection
+- `sdk.breathingBaseline` - [(time: Double, value: Double)] Breathing baseline
+- `sdk.phasic` - [(time: Double, value: Double)] Phasic (ie changes in relative blood pressure)
+- `sdk.rrl` - [(time: Double, value: Double)] Respiratory line length 
+- `sdk.ie` - [(time: Double, value: Double)] The inhale exhale ratio 
+- `sdk.uploadDate` - (String) upload date time
+- `sdk.version` - (String)  the version of API used
+- `sdk.userID` - (String)  the user ID
+-  `sdk.jsonMetrics` - (Dictionary) containing the metrics available according to your api key. See Data Format below for the contents and structure. **Warning: json structure is subject to change use at your own risk.**
 
 ### Data Format
 `sdk.jsonMetrics` is structured as follows: 
@@ -154,33 +168,7 @@ To extract metrics data from the SDK import the following into your content view
   }
 }
 ```
-The following are descirptions of the metrics:
 
-hr: pulse rate (time, value, and confidence)
-
-rr: breath rate (time, value, and confidence)
-
-hr_trace: rppg (time, value)
-
-rr_trace: breathing trace (time, value)
-
-hr_spec: pulse rate spectrogram (time, value, freq)
-
-rr_spec: breath rate spectrogram (time, value, freq)
-
-hrv: pulse rate variability (RMSSD) (time, value)
-
-phasic: an estimate of relative blood pressure (time, value)
-
-rrl: respiratory line length (time, value)
-
-apnea: boolean True if subject not breathing was detected
-
-ie: exhalation/inhalation, sampled once for each breath cycle (time, value)
-
-amplitude: amplitude of breathing waveform
-
-baseline: baseline of breathing waveform
 
 ## Device Orientation
 We do not recommend landscape support. We recommend removing the "Landscape Left," "Landscape Right," and "Portrait Upside Down" modes from your supported interface orientations.
@@ -191,8 +179,7 @@ For additional support, contact support@presagetech.com or submit a github issue
 
 
 ## Known Bugs
-- HRV is not returning
-- First measurement might have lower accuracy for metrics due to a camera settings issue. Subsequent measurements camera performs correctly.  
+- HRV is not returning.
 
 
 
