@@ -1,41 +1,65 @@
-Sample iOS App/Test SmartSpectra SDK/Config.swift
-.DS_Store
-.swiftpm/.DS_Store
-.swiftpm/xcode/.DS_Store
-Sample iOS App/.DS_Store
-SDK/.DS_Store
-SDK/.swiftpm/xcode/package.xcworkspace/xcuserdata/billvivino.xcuserdatad/UserInterfaceState.xcuserstate
-Sample iOS App/Test SmartSpectra SDK.xcodeproj/project.xcworkspace/xcuserdata/billvivino.xcuserdatad/UserInterfaceState.xcuserstate
-# Xcode .gitignore
+# macOS generated files
+**/.DS_Store
+.AppleDouble
+.LSOverride
+
+# Xcode specific
 # Compiled object files and app products
 *.o
 *.dylib
 *.so
 *.app
 *.ipa
+*.dSYM.zip
 *.dSYM
 *.lproj/
 *.swiftdoc
 *.swiftmodule
 
-# Xcode files
+# Xcode project files
 xcuserdata/
-project.xcworkspace/xcuserdata/
-project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+*.xcworkspace
 *.xcuserstate
 
 # Derived data and build output
 build/
 DerivedData/
+**/.build/
 
-# Swift PM
-.swiftpm/xcode/package.xcworkspace/xcuserdata/
-.swiftpm/xcode/package.xcworkspace/xcshareddata/
+# Swift Package Manager
+#
+# Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
+# Packages/
+# Package.pins
+# Package.resolved
+*.xcodeproj
+#
+# Xcode automatically generates this directory with a .xcworkspacedata file and xcuserdata
+# hence it is not needed unless you have added a package configuration file to your project
+.swiftpm
 
-# OS generated files
-.DS_Store
-.AppleDouble
-.LSOverride
+# CocoaPods
+# Pods/
+# Add this line if you want to avoid checking in source code from the Xcode workspace
+*.xcworkspace
 
-# Thumbnails
-._*
+# Carthage
+Carthage/Build/
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Obj-C/Swift specific
+*.hmap
+
+## App packaging
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+## Playgrounds
+timeline.xctimeline
+playground.xcworkspace
