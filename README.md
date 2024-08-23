@@ -83,6 +83,31 @@ You can display the strict breathing rate and pulse rate which is the average of
 ```Swift
 SmartSpectraSwiftUIView()
 ```
+
+### Displaying face mesh points
+
+You can display the face mesh points by following the example in [ContentView.swift](Test%20SmartSpectra%20SDK/ContentView.swift)
+
+```Swift
+if !sdk.meshPoints.isEmpty {
+   // Visual representation of mesh points
+   GeometryReader { geometry in
+         ZStack {
+            ForEach(Array(sdk.meshPoints.enumerated()), id: \.offset) { index, point in
+               Circle()
+                     .fill(Color.blue)
+                     .frame(width: 3, height: 3)
+                     .position(x: CGFloat(point.x) * geometry.size.width / 1280.0,
+                           y: CGFloat(point.y) * geometry.size.height / 1280.0)
+            }
+         }
+   }
+   .frame(width: 400, height: 400) // Adjust the height as needed
+}
+```
+
+Since the mesh points are published you can also use `combine` to subscribe to the mesh points to add a custom callback to further process the mesh points.
+
 ### Extracting Metrics Data
 To extract metrics data from the SDK import the following into your content view:
 ```Swift
