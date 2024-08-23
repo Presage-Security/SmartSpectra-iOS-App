@@ -65,6 +65,22 @@ struct ContentView: View {
                     if !sdk.ie.isEmpty {
                         LineChartView(orderedPairs: sdk.ie, title: "IE", xLabel: "Time", yLabel: "Value", showYTicks: true)
                     }
+                    
+                    if !sdk.meshPoints.isEmpty {
+                        // Visual representation of mesh points
+                        GeometryReader { geometry in
+                            ZStack {
+                                ForEach(Array(sdk.meshPoints.enumerated()), id: \.offset) { index, point in
+                                    Circle()
+                                        .fill(Color.blue)
+                                        .frame(width: 3, height: 3)
+                                        .position(x: CGFloat(point.x) * geometry.size.width / 1280.0,
+                                                y: CGFloat(point.y) * geometry.size.height / 1280.0)
+                                }
+                            }
+                        }
+                        .frame(width: 400, height: 400) // Adjust the height as needed
+                    }
                 }
             }
         }
