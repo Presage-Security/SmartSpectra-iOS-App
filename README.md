@@ -58,7 +58,7 @@ Please refer to [ContentView.swift](Test%20SmartSpectra%20SDK/ContentView.swift)
 
 You need to integrate the `SmartSpectraButtonView` into your app which is a button that allows the user to conduct a measurement and compute physiology metrics. Here's a simple example using SwiftUI:
 
-Note you need to ender your API key string at `"YOUR_API_KEY_HERE"`. Optionally, you can also configure spot duration, whether to show frame per second (fps) during screening, or save json data for the measurement in the user's device.
+Note you need to ender your API key string at `"YOUR_API_KEY_HERE"`. Optionally, you can also configure spot duration, whether to show frame per second (fps) during screening the measurement in the user's device.
 
 ```swift
 import SwiftUI
@@ -109,78 +109,6 @@ To extract metrics data from the SDK import the following into your content view
 | `sdk.uploadDate`             | (String)                                   | upload date time                                                       |
 | `sdk.version`                | (String)                                   | the version of API used                                                |
 | `sdk.userID`                 | (String)                                   | the user ID                                                            |
-| `sdk.jsonMetrics`            | (Dictionary)                               | containing the metrics available according to your api key. See Data Format below for the contents and structure. **Warning: json structure is subject to change use at your own risk.** |
-
-### Data Format
-`sdk.jsonMetrics` is structured as follows: 
-```json
-{
-  "error": "",
-  "version": "3.10.1",
-  "pulse": {
-     "hr":{
-         "10":{
-              "value": 58.9,
-              "confidence": 0.95,
-         },
-         "11":{
-              "value": 58.2,
-              "confidence": 0.94,
-         },
-         "12":{
-              "value": 58.1,
-              "confidence": 0.91,
-         },
-      },
-     "hr_trace":{
-         "0":{ "value": 0.5},
-         "0.033":{ "value": 0.56},
-         "0.066":{ "value": 0.59}
-      },
-     "hr_spec":{
-         "10":{ "value": [], "freq":[]},
-         "11":{ "value": [], "freq":[]},
-         "12":{ "value": [], "freq":[]}
-      },
-     "hrv":{},
-  },
-  "breath": {
-     "rr":{
-         "15":{
-              "value": 18.9,
-              "confidence": 0.95,
-         },
-         "16":{
-              "value": 18.2,
-              "confidence": 0.94,
-         },
-         "17":{
-              "value": 18.1,
-              "confidence": 0.91,
-         },
-      },
-     "rr_trace":{
-         "0":{ "value": 0.5},
-         "0.033":{ "value": 0.56},
-         "0.066":{ "value": 0.59}
-      },
-     "rr_spec":{
-         "15":{ "value": [], "freq":[]},
-         "16":{ "value": [], "freq":[]},
-         "17":{ "value": [], "freq":[]}
-      },
-     "rrl":{"0":{ "value": 0.5}},
-     "apnea":{"0":{ "value": false}},
-     "ie":{"0":{ "value": 1.5}},
-     "amplitude":{"0":{ "value": 0.5}},
-     "baseline":{"0":{ "value": 0.5}}
-  },
-  "pressure": {
-     "phasic":{"0":{ "value": 0.5}},
-  }
-}
-```
-
 
 ## Device Orientation
 We do not recommend landscape support. We recommend removing the "Landscape Left," "Landscape Right," and "Portrait Upside Down" modes from your supported interface orientations.
