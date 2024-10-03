@@ -9,7 +9,7 @@ import SwiftUI
 import Charts
 
 struct LineChartView: View {
-    let orderedPairs: [(time: Double, value: Double)]
+    let orderedPairs: [(time: Float, value: Float)]
     let title: String
     let xLabel: String
     let yLabel: String
@@ -59,7 +59,9 @@ struct LineChartView: View {
                 .padding()
             } else {
                 // Fallback for iOS versions earlier than 16.0
-                ChartsViewLegacy(orderedPairs: orderedPairs, title: title, xLabel: xLabel, yLabel: yLabel, showYTicks: showYTicks)
+                // Map each (Float, Float) pair to (Double, Double) since CGFloat is typealiased to Double and compiler fails to typecheck otherwise
+                let doubleOrderedPairs = orderedPairs.map { (time: Double($0.time), value: Double($0.value)) }
+                ChartsViewLegacy(orderedPairs: doubleOrderedPairs, title: title, xLabel: xLabel, yLabel: yLabel, showYTicks: showYTicks)
                     .frame(height: 200)
             }
         }

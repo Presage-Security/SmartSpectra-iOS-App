@@ -25,21 +25,18 @@ The app contained in this repo is an example of using the SmartSpectra SDK and s
 
 The Swift Package Manager (SPM) is a tool for managing the distribution of Swift code. It automates the process of downloading, compiling, and linking dependencies.
 
-To add SmartSpectra iOS SDK as a dependency to your Xcode project using SPM, follow either of these two sets of steps within Xcode:    
+To add SmartSpectra iOS SDK as a dependency to your Xcode project using SPM, follow either of these two sets of steps within Xcode:
 
 - Method 1:
 Go to File -> "Add Package Dependencies..."
 In the "Search or Enter Package URL" field, enter the URL "https://github.com/Presage-Security/SmartSpectra-iOS-SDK"
 For the "Dependency Rule," select "Branch" and then "main."
-For "Add to Target," select your project. 
-
+For "Add to Target," select your project.
 
 - Method 2: Open your project in Xcode.  Select your project in the Project Navigator, then click on the project in the Project/Targets Pane. Go to the Package Dependencies Tab, then click the "+" button 
    - **Note**: Some Version of Xcode Navigate to File > Swift Packages > Add Package Dependency
 Paste the repository URL for SmartSpectra iOS SDK in the search bar and press Enter. URL is https://github.com/Presage-Security/SmartSpectra-iOS-SDK.
 Select Add Package
-
-**Note: Select feat/60_second_sdk for the branch if wanting 60 second measurements.**
 
 ## API Key
 
@@ -54,11 +51,14 @@ Please refer to [ContentView.swift](Test%20SmartSpectra%20SDK/ContentView.swift)
   - Bundle Identifier: Your desired bundle identifier such as: `com.johnsmith.smartspectratest`
   - If you are not a registered developer for the App Store follow the prompt to navigate to Settings > General > VPN & Device Management, then select your developer App certificate to trust it on your iOS device.
 
-### Integrate the SmartSpectra Button View, add api key, and configure sdk parameters
+### Integrate the SmartSpectra View
 
-You need to integrate the `SmartSpectraButtonView` into your app which is a button that allows the user to conduct a measurement and compute physiology metrics. Here's a simple example using SwiftUI:
+You need to integrate the `SmartSpectraView` into your app which is composed of
 
-Note you need to ender your API key string at `"YOUR_API_KEY_HERE"`. Optionally, you can also configure spot duration, whether to show frame per second (fps) during screening the measurement in the user's device.
+- A button that allows the user to conduct a measurement and compute physiology metrics
+- A resultview that shows the strict breathing rate and pulse rate after the measurement
+
+Here's a simple example using SwiftUI:
 
 ```swift
 import SwiftUI
@@ -66,22 +66,176 @@ import SmartSpectraIosSDK
 
 struct ContentView: View {
     var body: some View {
-      SmartSpectraButtonView(apiKey: "YOUR_API_KEY_HERE")
-         .task {
-            // Configure sdk parameters
-            // valid range for spot duration is between 20.0 and 120.0
-            sdk.setSpotDuration(30.0)
-            sdk.setShowFps(false)
-         }
+        // (Required), set apiKey. API key from https://physiology.presagetech.com
+        // (Optional), set spotDuration. Valid range for spot duration is between 20.0 and 120.0
+        // (Optional), set showFPS. To show fps in the screening view
+        SmartSpectraView(apiKey: "YOUR_API_KEY_HERE", spotDuration: 30.0, showFps: false)
    }
 }
 ```
 
-### Displaying Strict Breathing Rate and Pulse Rate Values
-You can display the strict breathing rate and pulse rate which is the average of only the high confidence breathing rate and pulse rate values over the 30 second measurement by adding the following to your view:
+> [!IMPORTANT]
+> You need to enter your API key string at `"YOUR_API_KEY_HERE"`. Optionally, you can also configure spot duration, whether to show frame per second (fps) during screening.
 
-```Swift
-SmartSpectraSwiftUIView()
+### Extracting and UsingMetrics Data
+
+
+The `MetricsBuffer` is the main struct generated using [swift-protobuf](https://github.com/apple/swift-protobuf) that contains all metrics data. You can access it through a `@ObservedObject` instance of `SmartSpectraIosSDK.shared`. This way any update to the metrics data will automatically trigger a UI update.
+
+**Usage Example:**
+
+```swift
+@ObservedObject var shared = SmartSpectraIosSDK.shared
+
+if let metrics = sdk.metricsBuffer {
+  // Use the metrics
+
+  // Access pulse data
+  metrics.pulse.rate.forEach { measurement in
+      print("Pulse rate value: \(measurement.value), time: \(measurement.time), confidence: \(measurement.confidence)")
+  }
+
+  // Access breathing data
+  metrics.breathing.rate.forEach { rate in
+      print("Breathing rate: \(rate.value), time: \(rate.time), confidence: \(rate.confidence)")
+  }
+}
+
+
+```
+
+### Detailed `MetricsBuffer` Struct Descriptions
+
+> [!TIP]
+> If you need to use the types directly, the MetricsBuffer and corresponding structs are under the `Presage_Physiology` namespace. You can type alias it from the `Presage_Physiology_MetricsBuffer` to `MetricsBuffer` for easier usage:
+> ```swift
+> typealias MetricsBuffer = Presage_Physiology_MetricsBuffer
+> ```
+
+Metrics Buffer contains the following parent structs:
+
+```swift
+struct MetricsBuffer {
+    var pulse: Pulse
+    var breathing: Breathing
+    var bloodPressure: BloodPressure
+    var face: Face
+    var metadata: Metadata
+}
+```
+
+### Measurement Types
+
+- **`Measurement` Struct** : Represents a measurement with time and value:
+
+```swift
+struct Measurement {
+    var time: Float
+    var value: Float
+    var stable: Bool
+}
+```
+
+- **`MeasurementWithConfidence` Struct** : Includes confidence with the measurement:
+
+```swift
+struct MeasurementWithConfidence {
+    var time: Float
+    var value: Float
+    var stable: Bool
+    var confidence: Float
+}
+```
+
+- **`DetectionStatus` Struct** :Used for events like apnea or face detection (blinking/talking):
+
+```swift
+struct DetectionStatus {
+    var time: Float
+    var detected: Bool
+    var stable: Bool
+}
+```
+
+#### Metric Types
+
+- **`Pulse` Struct** : Contains pulse-related measurements, including rate, trace, and strict values:
+
+```swift
+struct Pulse {
+    var rate: [MeasurementWithConfidence]
+    var trace: [Measurement]
+    var strict: Strict
+}
+```
+
+- **`Breathing` Struct** : Handles breathing-related data with upper and lower traces, amplitude, apnea status, and other metrics:
+
+```swift
+struct Breathing {
+    var rate: [MeasurementWithConfidence]
+    var upperTrace: [Measurement]
+    var lowerTrace: [Measurement]
+    var amplitude: [Measurement]
+    var apnea: [DetectionStatus]
+    var respiratoryLineLength: [Measurement]
+    var inhaleExhaleRatio: [Measurement]
+    var strict: Strict
+}
+```
+
+- **`BloodPressure` Struct** : Handles blood pressure measurements:
+
+> [!CAUTION]
+> Currently not available publicly, currently returned results are a duplicate of pulse pleth
+
+```swift
+struct BloodPressure {
+    var phasic: [MeasurementWithConfidence]
+}
+```
+
+- **`Face` Struct** : Includes detection statuses for blinking and talking:
+
+```swift
+struct Face {
+    var blinking: [DetectionStatus]
+    var talking: [DetectionStatus]
+}
+```
+
+- **`Metadata` Struct** : Includes metadata information:
+
+```swift
+struct Metadata {
+    var id: String
+    var uploadTimestamp: String
+    var apiVersion: String
+}
+```
+
+#### Encoding and Decoding Protobuf Messages
+
+To serialize `MetricsBuffer` into binary format:
+
+```swift
+do {
+    let data = try metrics.serializedData()
+    // Send `data` to your backend or save it
+} catch {
+    print("Failed to serialize metrics: \(error)")
+}
+```
+
+To decode binary protobufdata into `MetricsBuffer`:
+
+```swift
+do {
+    let decodedMetrics = try MetricsBuffer(serializedBytes: data)
+    // Use `decodedMetrics` as needed
+} catch {
+    print("Failed to decode metrics: \(error)")
+}
 ```
 
 ### Displaying face mesh points
@@ -108,39 +262,14 @@ if !sdk.meshPoints.isEmpty {
 
 Since the mesh points are published you can also use `combine` to subscribe to the mesh points to add a custom callback to further process the mesh points.
 
-### Extracting Metrics Data
-To extract metrics data from the SDK import the following into your content view:
-```Swift
-@ObservedObject var sdk = SmartSpectraIosSDK.shared
-```
-`SmartSpectraIosSDK.shared` has 13 observable objects:
-
-| Result Key                   | Value Type                                 | Description                                                            |
-|------------------------------|--------------------------------------------|------------------------------------------------------------------------|
-| `sdk.strictPulseRate`        | (Double)                                   | The strict pulse rate (high confidence average over spot duration)     |
-| `sdk.strictBreathingRate`    | (Double)                                   | The strict breathing rate (high confidence average over spot duration) |
-| `sdk.pulseValues`            | [(time: Double, value: Double)]            | Pulse rates                                                            |
-| `sdk.pulseConfidence`        | [(time: Double, value: Double)]            | Pulse rate confidences                                                 |
-| `sdk.pulsePleth`             | [(time: Double, value: Double)]            | Pulse waveform or pleth                                                |
-| `sdk.hrv`                    | [(time: Double, value: Double)]            | Pulse rate variability (RMSSD) **(Requires 60+ second Spot Duration)** |
-| `sdk.breathingValues`        | [(time: Double, value: Double)]            | Breathing rates                                                        |
-| `sdk.breathingPleth`         | [(time: Double, value: Double)]            | Breathing movement waveform or pleth                                   |
-| `sdk.breathingAmplitude`     | [(time: Double, value: Double)]            | Breathing rate confidences                                             |
-| `sdk.apnea`                  | [(time: Double, value: Bool)]            | Apnea detection                                                        |
-| `sdk.breathingBaseline`      | [(time: Double, value: Double)]            | Breathing baseline                                                     |
-| `sdk.phasic`                 | [(time: Double, value: Double)]            | Phasic (ie changes in relative blood pressure)                         |
-| `sdk.rrl`                    | [(time: Double, value: Double)]            | Respiratory line length                                                |
-| `sdk.ie`                     | [(time: Double, value: Double)]            | The inhale exhale ratio                                                |
-| `sdk.uploadDate`             | (String)                                   | upload date time                                                       |
-| `sdk.version`                | (String)                                   | the version of API used                                                |
-| `sdk.userID`                 | (String)                                   | the user ID                                                            |
-
 ## Device Orientation
+
 We do not recommend landscape support. We recommend removing the "Landscape Left," "Landscape Right," and "Portrait Upside Down" modes from your supported interface orientations.
 
 ## Troubleshooting
-For additional support, contact support@presagetech.com or submit a github issue (https://github.com/Presage-Security/SmartSpectra-iOS-App/issues)
 
+For additional support, contact support@presagetech.com or submit a [Github Issue](https://github.com/Presage-Security/SmartSpectra-iOS-App/issues)
 
+## Known Bugs
 
-[//]: # (## Known Bugs)
+- Currently, there are no known bugs. If you encounter an issue, please contact support or report it.
