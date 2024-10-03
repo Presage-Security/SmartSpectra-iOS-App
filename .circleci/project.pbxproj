@@ -7,16 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		02A9825A2C0A15800041C33A /* SmartSpectraIosSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 02A982592C0A15800041C33A /* SmartSpectraIosSDK */; };
-		2106D1B92BC7619F00FBF11F /* SmartSpectraIosSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2106D1B82BC7619F00FBF11F /* SmartSpectraIosSDK */; };
 		210E0AC32BC0B95000C48003 /* Test_SmartSpectra_SDKApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210E0AC22BC0B95000C48003 /* Test_SmartSpectra_SDKApp.swift */; };
 		210E0AC52BC0B95000C48003 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210E0AC42BC0B95000C48003 /* ContentView.swift */; };
 		210E0AC72BC0B95000C48003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 210E0AC62BC0B95000C48003 /* Assets.xcassets */; };
 		210E0ACA2BC0B95000C48003 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 210E0AC92BC0B95000C48003 /* Preview Assets.xcassets */; };
-		211296182BC4A4D000732D3D /* SmartSpectraIosSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 211296172BC4A4D000732D3D /* SmartSpectraIosSDK */; };
-		21BDEC622BC5A09C0083BC15 /* SmartSpectraIosSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 21BDEC612BC5A09C0083BC15 /* SmartSpectraIosSDK */; };
-		21D336352BC75E170076EB9E /* SmartSpectraIosSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 21D336342BC75E170076EB9E /* SmartSpectraIosSDK */; };
-		388B7E2C2BD9E4690024CF39 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 388B7E2B2BD9E4690024CF39 /* README.md */; };
+		8152451B2CAF30F4008D10D0 /* SmartSpectraIosSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 8152451A2CAF30F4008D10D0 /* SmartSpectraIosSDK */; };
+		81B8D8F42C6B077D00B24A0F /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B8D8F32C6B077D00B24A0F /* LineChartView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +22,7 @@
 		210E0AC62BC0B95000C48003 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		210E0AC92BC0B95000C48003 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		388B7E2B2BD9E4690024CF39 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		81B8D8F32C6B077D00B24A0F /* LineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,11 +30,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2106D1B92BC7619F00FBF11F /* SmartSpectraIosSDK in Frameworks */,
-				21BDEC622BC5A09C0083BC15 /* SmartSpectraIosSDK in Frameworks */,
-				02A9825A2C0A15800041C33A /* SmartSpectraIosSDK in Frameworks */,
-				21D336352BC75E170076EB9E /* SmartSpectraIosSDK in Frameworks */,
-				211296182BC4A4D000732D3D /* SmartSpectraIosSDK in Frameworks */,
+				8152451B2CAF30F4008D10D0 /* SmartSpectraIosSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -49,6 +42,7 @@
 			children = (
 				388B7E2B2BD9E4690024CF39 /* README.md */,
 				210E0AC12BC0B94F00C48003 /* Test SmartSpectra SDK */,
+				815245162CAF29D4008D10D0 /* Frameworks */,
 				210E0AC02BC0B94F00C48003 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -66,6 +60,7 @@
 			children = (
 				210E0AC22BC0B95000C48003 /* Test_SmartSpectra_SDKApp.swift */,
 				210E0AC42BC0B95000C48003 /* ContentView.swift */,
+				81B8D8F32C6B077D00B24A0F /* LineChartView.swift */,
 				210E0AC62BC0B95000C48003 /* Assets.xcassets */,
 				210E0AC82BC0B95000C48003 /* Preview Content */,
 			);
@@ -78,6 +73,13 @@
 				210E0AC92BC0B95000C48003 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		815245162CAF29D4008D10D0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -97,11 +99,7 @@
 			);
 			name = "Test SmartSpectra SDK";
 			packageProductDependencies = (
-				211296172BC4A4D000732D3D /* SmartSpectraIosSDK */,
-				21BDEC612BC5A09C0083BC15 /* SmartSpectraIosSDK */,
-				21D336342BC75E170076EB9E /* SmartSpectraIosSDK */,
-				2106D1B82BC7619F00FBF11F /* SmartSpectraIosSDK */,
-				02A982592C0A15800041C33A /* SmartSpectraIosSDK */,
+				8152451A2CAF30F4008D10D0 /* SmartSpectraIosSDK */,
 			);
 			productName = "Test SmartSpectra SDK";
 			productReference = 210E0ABF2BC0B94F00C48003 /* Test SmartSpectra SDK.app */;
@@ -132,7 +130,7 @@
 			);
 			mainGroup = 210E0AB62BC0B94F00C48003;
 			packageReferences = (
-				02A982582C0A15800041C33A /* XCRemoteSwiftPackageReference "SmartSpectra-iOS-SDK" */,
+				815245192CAF30F4008D10D0 /* XCRemoteSwiftPackageReference "SmartSpectra-iOS-SDK" */,
 			);
 			productRefGroup = 210E0AC02BC0B94F00C48003 /* Products */;
 			projectDirPath = "";
@@ -148,7 +146,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				388B7E2C2BD9E4690024CF39 /* README.md in Resources */,
 				210E0ACA2BC0B95000C48003 /* Preview Assets.xcassets in Resources */,
 				210E0AC72BC0B95000C48003 /* Assets.xcassets in Resources */,
 			);
@@ -163,6 +160,7 @@
 			files = (
 				210E0AC52BC0B95000C48003 /* ContentView.swift in Sources */,
 				210E0AC32BC0B95000C48003 /* Test_SmartSpectra_SDKApp.swift in Sources */,
+				81B8D8F42C6B077D00B24A0F /* LineChartView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,7 +382,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		02A982582C0A15800041C33A /* XCRemoteSwiftPackageReference "SmartSpectra-iOS-SDK" */ = {
+		815245192CAF30F4008D10D0 /* XCRemoteSwiftPackageReference "SmartSpectra-iOS-SDK" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Presage-Security/SmartSpectra-iOS-SDK";
 			requirement = {
@@ -395,25 +393,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		02A982592C0A15800041C33A /* SmartSpectraIosSDK */ = {
+		8152451A2CAF30F4008D10D0 /* SmartSpectraIosSDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 02A982582C0A15800041C33A /* XCRemoteSwiftPackageReference "SmartSpectra-iOS-SDK" */;
-			productName = SmartSpectraIosSDK;
-		};
-		2106D1B82BC7619F00FBF11F /* SmartSpectraIosSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SmartSpectraIosSDK;
-		};
-		211296172BC4A4D000732D3D /* SmartSpectraIosSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SmartSpectraIosSDK;
-		};
-		21BDEC612BC5A09C0083BC15 /* SmartSpectraIosSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SmartSpectraIosSDK;
-		};
-		21D336342BC75E170076EB9E /* SmartSpectraIosSDK */ = {
-			isa = XCSwiftPackageProductDependency;
+			package = 815245192CAF30F4008D10D0 /* XCRemoteSwiftPackageReference "SmartSpectra-iOS-SDK" */;
 			productName = SmartSpectraIosSDK;
 		};
 /* End XCSwiftPackageProductDependency section */
