@@ -3,68 +3,89 @@ import SmartSpectraIosSDK
 
 struct ContentView: View {
     @ObservedObject var sdk = SmartSpectraIosSDK.shared
+
     var body: some View {
         
         VStack {
-            // Add button to view and put in API Key
-            SmartSpectraButtonView(apiKey: "YOUR_API_KEY_HERE")
-                .task {
-                    // Configure sdk parameters
-                    // valid range for spot duration is between 20.0 and 120.0
-                    sdk.setSpotDuration(30.0)
-                    sdk.setShowFps(false)
-                }
-            // Add in the result view of the Strict Pulse and Breathing Rates
-            SmartSpectraSwiftUIView()
+            // Add the SmartSpectra SwiftUI View
+            // (Required), set apiKey. API key from https://physiology.presagetech.com
+            // (Optional), set spotDuration. Valid range for spot duration is between 20.0 and 120.0
+            // (Optional), set showFPS. To show fps in the screening view
+            SmartSpectraView(apiKey: "YOUR_API_KEY_HERE", spotDuration: 30.0, showFps: false)
             
             // Scrolling view to view additional metrics from measurment
             ScrollView {
                 VStack {
-                 //  To print additional meta data of the analysis
-                 //  Text("Upload Date: \(sdk.uploadDate ?? "")")
-                 //  Text("User ID: \(sdk.userID ?? "")")
-                 //  Text("API Version: \(sdk.version ?? "")")
+                 //  To show additional meta data of the analysis
+                 //  Text("Metadata: \(String(describing: metricsBuffer.metadata))")
                     
-                    if !sdk.pulsePleth.isEmpty {
-                        LineChartView(orderedPairs: sdk.pulsePleth, title: "Pulse Pleth", xLabel: "Time", yLabel: "Value", showYTicks: false)
+                    // Plotting example
+                    if let metrics = sdk.metricsBuffer {
+                        let pulse = metrics.pulse
+                        let breathing = metrics.breathing
+                        let bloodPressure = metrics.bloodPressure
+                        let face = metrics.face
+                        
+                        Section ("Pulse") {
+                            if !pulse.trace.isEmpty {
+                                LineChartView(orderedPairs: pulse.trace.map { ($0.time, $0.value) }, title: "Pulse Pleth", xLabel: "Time", yLabel: "Value", showYTicks: false)
+                            }
+                            
+                            if !pulse.rate.isEmpty {
+                                LineChartView(orderedPairs: pulse.rate.map { ($0.time, $0.value) }, title: "Pulse Rates", xLabel: "Time", yLabel: "Value", showYTicks: true)
+                                LineChartView(orderedPairs: pulse.rate.map { ($0.time, $0.confidence) }, title: "Pulse Rate Confidence", xLabel: "Time", yLabel: "Value", showYTicks: true)
+                            }
+
+//                            if !pulse..isEmpty {
+//                                //for hrv analysis this will only be producable with 60 second version of SDK
+//                                LineChartView(orderedPairs: pulse..map { ($0.time, $0.value) }, title: "Pulse Rate Variability", xLabel: "Time", yLabel: "value", showYTicks: true)
+//                            }
+                        }
+                        
+                        Section ("Breathing") {
+                            if !breathing.upperTrace.isEmpty {
+                                LineChartView(orderedPairs: breathing.upperTrace.map { ($0.time, $0.value) }, title: "Breathing Pleth", xLabel: "Time", yLabel: "Value", showYTicks: false)
+                            }
+                            
+                            if !breathing.rate.isEmpty {
+                                LineChartView(orderedPairs: breathing.rate.map { ($0.time, $0.value) }, title: "Breathing Rates", xLabel: "Time", yLabel: "Value", showYTicks: true)
+                                LineChartView(orderedPairs: breathing.rate.map { ($0.time, $0.confidence) }, title: "Breathing Rate Confidence", xLabel: "Time", yLabel: "Value", showYTicks: true)
+                            }
+     
+                            if !breathing.amplitude.isEmpty {
+                                LineChartView(orderedPairs: breathing.amplitude.map { ($0.time, $0.value) }, title: "Breathing Amplitude", xLabel: "Time", yLabel: "Value", showYTicks: true)
+                            }
+                            if !breathing.apnea.isEmpty {
+                                LineChartView(orderedPairs: breathing.apnea.map { ($0.time, $0.detected ? 1.0 : 0.0) }, title: "Apnea Detection", xLabel: "Time", yLabel: "Value", showYTicks: true)
+                            }
+                            if !breathing.baseline.isEmpty {
+                                LineChartView(orderedPairs: breathing.baseline.map { ($0.time, $0.value) }, title: "Breathing Baseline", xLabel: "Time", yLabel: "Value", showYTicks: true)
+                            }
+                            if !breathing.respiratoryLineLength.isEmpty {
+                                LineChartView(orderedPairs: breathing.respiratoryLineLength.map { ($0.time, $0.value) }, title: "Respiratory Line Length", xLabel: "Time", yLabel: "Value", showYTicks: true)
+                            }
+                            
+                            if !breathing.inhaleExhaleRatio.isEmpty {
+                                LineChartView(orderedPairs: breathing.inhaleExhaleRatio.map { ($0.time, $0.value) }, title: "Inhale-Exhale Ratio", xLabel: "Time", yLabel: "Value", showYTicks: true)
+                            }
+                        }
+                        
+                        Section ("Blood Pressure") {
+                            if !bloodPressure.phasic.isEmpty {
+                                LineChartView(orderedPairs: bloodPressure.phasic.map { ($0.time, $0.value) }, title: "Phasic", xLabel: "Time", yLabel: "Value", showYTicks: true)
+                            }
+                        }
+                        
+                        Section ("Face") {
+                            if !face.blinking.isEmpty {
+                                LineChartView(orderedPairs: face.blinking.map { ($0.time, $0.detected ? 1.0 : 0.0) }, title: "Blinking", xLabel: "Time", yLabel: "Value", showYTicks: true)
+                            }
+                            if !face.talking.isEmpty {
+                                LineChartView(orderedPairs: face.talking.map { ($0.time, $0.detected ? 1.0 : 0.0) }, title: "Talking", xLabel: "Time", yLabel: "Value", showYTicks: true)
+                            }
+                        }
                     }
-                    if !sdk.breathingPleth.isEmpty {
-                        LineChartView(orderedPairs: sdk.breathingPleth, title: "Breathing Pleth", xLabel: "Time", yLabel: "Value", showYTicks: false)
-                    }
-                    if !sdk.pulseValues.isEmpty {
-                        LineChartView(orderedPairs: sdk.pulseValues, title: "Pulse Rates", xLabel: "Time", yLabel: "Value", showYTicks: true)
-                    }
-                    if !sdk.pulseConfidence.isEmpty {
-                        LineChartView(orderedPairs: sdk.pulseConfidence, title: "Pulse Rate Confidence", xLabel: "Time", yLabel: "Value", showYTicks: true)
-                    }
-                    if !sdk.hrv.isEmpty {
-                        //for hrv analysis this will only be producable with 60 second version of SDK
-                        LineChartView(orderedPairs: sdk.hrv, title: "Pulse Rate Variability", xLabel: "Time", yLabel: "value", showYTicks: true)
-                    }
-                    if !sdk.breathingValues.isEmpty {
-                        LineChartView(orderedPairs: sdk.breathingValues, title: "Breathing Rates", xLabel: "Time", yLabel: "Value", showYTicks: true)
-                    }
-                    if !sdk.breathingConfidence.isEmpty {
-                        LineChartView(orderedPairs: sdk.breathingConfidence, title: "Breathing Rate Confidence", xLabel: "Time", yLabel: "Value", showYTicks: true)
-                    }
-                    if !sdk.breathingAmplitude.isEmpty {
-                        LineChartView(orderedPairs: sdk.breathingAmplitude, title: "Breathing Amplitude", xLabel: "Time", yLabel: "Value", showYTicks: true)
-                    }
-                    if !sdk.apnea.isEmpty {
-                        LineChartView(orderedPairs: sdk.apnea.map { ($0.time, $0.value ? 1.0 : 0.0) }, title: "Apnea", xLabel: "Time", yLabel: "Value", showYTicks: true)
-                    }
-                    if !sdk.breathingBaseline.isEmpty {
-                        LineChartView(orderedPairs: sdk.breathingBaseline, title: "Breathing Baseline", xLabel: "Time", yLabel: "Value", showYTicks: true)
-                    }
-                    if !sdk.phasic.isEmpty {
-                        LineChartView(orderedPairs: sdk.phasic, title: "Phasic", xLabel: "Time", yLabel: "Value", showYTicks: true)
-                    }
-                    if !sdk.rrl.isEmpty {
-                        LineChartView(orderedPairs: sdk.rrl, title: "RRL", xLabel: "Time", yLabel: "Value", showYTicks: true)
-                    }
-                    if !sdk.ie.isEmpty {
-                        LineChartView(orderedPairs: sdk.ie, title: "IE", xLabel: "Time", yLabel: "Value", showYTicks: true)
-                    }
+                    
                     
                     if !sdk.meshPoints.isEmpty {
                         // Visual representation of mesh points
