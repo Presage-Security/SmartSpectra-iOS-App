@@ -11,7 +11,7 @@
 		210E0AC52BC0B95000C48003 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210E0AC42BC0B95000C48003 /* ContentView.swift */; };
 		210E0AC72BC0B95000C48003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 210E0AC62BC0B95000C48003 /* Assets.xcassets */; };
 		210E0ACA2BC0B95000C48003 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 210E0AC92BC0B95000C48003 /* Preview Assets.xcassets */; };
-		8152451B2CAF30F4008D10D0 /* SmartSpectraIosSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 8152451A2CAF30F4008D10D0 /* SmartSpectraIosSDK */; };
+		812CA1932CC307B100085344 /* SmartSpectraIosSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 812CA1922CC307B100085344 /* SmartSpectraIosSDK */; };
 		81B8D8F42C6B077D00B24A0F /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B8D8F32C6B077D00B24A0F /* LineChartView.swift */; };
 /* End PBXBuildFile section */
 
@@ -30,7 +30,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8152451B2CAF30F4008D10D0 /* SmartSpectraIosSDK in Frameworks */,
+				812CA1932CC307B100085344 /* SmartSpectraIosSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,7 +99,7 @@
 			);
 			name = "Test SmartSpectra SDK";
 			packageProductDependencies = (
-				8152451A2CAF30F4008D10D0 /* SmartSpectraIosSDK */,
+				812CA1922CC307B100085344 /* SmartSpectraIosSDK */,
 			);
 			productName = "Test SmartSpectra SDK";
 			productReference = 210E0ABF2BC0B94F00C48003 /* Test SmartSpectra SDK.app */;
@@ -130,7 +130,7 @@
 			);
 			mainGroup = 210E0AB62BC0B94F00C48003;
 			packageReferences = (
-				815245192CAF30F4008D10D0 /* XCRemoteSwiftPackageReference "SmartSpectra-iOS-SDK" */,
+				812CA1912CC307B100085344 /* XCRemoteSwiftPackageReference "SmartSpectra-iOS-SDK" */,
 			);
 			productRefGroup = 210E0AC02BC0B94F00C48003 /* Products */;
 			projectDirPath = "";
@@ -372,7 +372,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		815245192CAF30F4008D10D0 /* XCRemoteSwiftPackageReference "SmartSpectra-iOS-SDK" */ = {
+		812CA1912CC307B100085344 /* XCRemoteSwiftPackageReference "SmartSpectra-iOS-SDK" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Presage-Security/SmartSpectra-iOS-SDK";
 			requirement = {
@@ -383,9 +383,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		8152451A2CAF30F4008D10D0 /* SmartSpectraIosSDK */ = {
+		812CA1922CC307B100085344 /* SmartSpectraIosSDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 815245192CAF30F4008D10D0 /* XCRemoteSwiftPackageReference "SmartSpectra-iOS-SDK" */;
+			package = 812CA1912CC307B100085344 /* XCRemoteSwiftPackageReference "SmartSpectra-iOS-SDK" */;
 			productName = SmartSpectraIosSDK;
 		};
 /* End XCSwiftPackageProductDependency section */

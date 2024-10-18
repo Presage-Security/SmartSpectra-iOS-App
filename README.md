@@ -69,7 +69,8 @@ struct ContentView: View {
         // (Required), set apiKey. API key from https://physiology.presagetech.com
         // (Optional), set spotDuration. Valid range for spot duration is between 20.0 and 120.0
         // (Optional), set showFPS. To show fps in the screening view
-        SmartSpectraView(apiKey: "YOUR_API_KEY_HERE", spotDuration: 30.0, showFps: false)
+        // (Optional), set recordingDelay. To set a initial countdown timer before recording starts. Defaults to 3
+         SmartSpectraView(apiKey: "YOUR_API_KEY_HERE", spotDuration: 30.0, showFps: false, recordingDelay: 3)
    }
 }
 ```
