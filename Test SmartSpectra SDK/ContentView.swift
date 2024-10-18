@@ -5,32 +5,33 @@ struct ContentView: View {
     @ObservedObject var sdk = SmartSpectraIosSDK.shared
 
     var body: some View {
-        
+
         VStack {
             // Add the SmartSpectra SwiftUI View
             // (Required), set apiKey. API key from https://physiology.presagetech.com
             // (Optional), set spotDuration. Valid range for spot duration is between 20.0 and 120.0
             // (Optional), set showFPS. To show fps in the screening view
-            SmartSpectraView(apiKey: "YOUR_API_KEY_HERE", spotDuration: 30.0, showFps: false)
-            
+            // (Optional), set recordingDelay. To set a initial countdown timer before recording starts. Defaults to 3
+            SmartSpectraView(apiKey: "YOUR_API_KEY_HERE", spotDuration: 30.0, showFps: false, recordingDelay: 3)
+
             // Scrolling view to view additional metrics from measurment
             ScrollView {
                 VStack {
                  //  To show additional meta data of the analysis
                  //  Text("Metadata: \(String(describing: metricsBuffer.metadata))")
-                    
+
                     // Plotting example
                     if let metrics = sdk.metricsBuffer {
                         let pulse = metrics.pulse
                         let breathing = metrics.breathing
                         let bloodPressure = metrics.bloodPressure
                         let face = metrics.face
-                        
+
                         Section ("Pulse") {
                             if !pulse.trace.isEmpty {
                                 LineChartView(orderedPairs: pulse.trace.map { ($0.time, $0.value) }, title: "Pulse Pleth", xLabel: "Time", yLabel: "Value", showYTicks: false)
                             }
-                            
+
                             if !pulse.rate.isEmpty {
                                 LineChartView(orderedPairs: pulse.rate.map { ($0.time, $0.value) }, title: "Pulse Rates", xLabel: "Time", yLabel: "Value", showYTicks: true)
                                 LineChartView(orderedPairs: pulse.rate.map { ($0.time, $0.confidence) }, title: "Pulse Rate Confidence", xLabel: "Time", yLabel: "Value", showYTicks: true)
@@ -41,17 +42,17 @@ struct ContentView: View {
 //                                LineChartView(orderedPairs: pulse..map { ($0.time, $0.value) }, title: "Pulse Rate Variability", xLabel: "Time", yLabel: "value", showYTicks: true)
 //                            }
                         }
-                        
+
                         Section ("Breathing") {
                             if !breathing.upperTrace.isEmpty {
                                 LineChartView(orderedPairs: breathing.upperTrace.map { ($0.time, $0.value) }, title: "Breathing Pleth", xLabel: "Time", yLabel: "Value", showYTicks: false)
                             }
-                            
+
                             if !breathing.rate.isEmpty {
                                 LineChartView(orderedPairs: breathing.rate.map { ($0.time, $0.value) }, title: "Breathing Rates", xLabel: "Time", yLabel: "Value", showYTicks: true)
                                 LineChartView(orderedPairs: breathing.rate.map { ($0.time, $0.confidence) }, title: "Breathing Rate Confidence", xLabel: "Time", yLabel: "Value", showYTicks: true)
                             }
-     
+
                             if !breathing.amplitude.isEmpty {
                                 LineChartView(orderedPairs: breathing.amplitude.map { ($0.time, $0.value) }, title: "Breathing Amplitude", xLabel: "Time", yLabel: "Value", showYTicks: true)
                             }
@@ -64,18 +65,18 @@ struct ContentView: View {
                             if !breathing.respiratoryLineLength.isEmpty {
                                 LineChartView(orderedPairs: breathing.respiratoryLineLength.map { ($0.time, $0.value) }, title: "Respiratory Line Length", xLabel: "Time", yLabel: "Value", showYTicks: true)
                             }
-                            
+
                             if !breathing.inhaleExhaleRatio.isEmpty {
                                 LineChartView(orderedPairs: breathing.inhaleExhaleRatio.map { ($0.time, $0.value) }, title: "Inhale-Exhale Ratio", xLabel: "Time", yLabel: "Value", showYTicks: true)
                             }
                         }
-                        
+
                         Section ("Blood Pressure") {
                             if !bloodPressure.phasic.isEmpty {
                                 LineChartView(orderedPairs: bloodPressure.phasic.map { ($0.time, $0.value) }, title: "Phasic", xLabel: "Time", yLabel: "Value", showYTicks: true)
                             }
                         }
-                        
+
                         Section ("Face") {
                             if !face.blinking.isEmpty {
                                 LineChartView(orderedPairs: face.blinking.map { ($0.time, $0.detected ? 1.0 : 0.0) }, title: "Blinking", xLabel: "Time", yLabel: "Value", showYTicks: true)
@@ -85,8 +86,8 @@ struct ContentView: View {
                             }
                         }
                     }
-                    
-                    
+
+
                     if !sdk.meshPoints.isEmpty {
                         // Visual representation of mesh points
                         GeometryReader { geometry in
