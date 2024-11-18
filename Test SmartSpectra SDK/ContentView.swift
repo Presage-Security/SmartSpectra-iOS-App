@@ -24,7 +24,7 @@ struct ContentView: View {
             // (Optional), set showFPS. To show fps in the screening view
             // (Optional), set recordingDelay. To set a initial countdown timer before recording starts. Defaults to 3
 
-            let apiKey = "YOUR-API-KEY"
+            let apiKey = "YOUR_API_KEY_HERE"
 
             SmartSpectraView(apiKey: apiKey, configuration: config, showFps: false, recordingDelay: 3, cameraPosition: cameraPosition)
             // (Optional), example of how to switch camera at runtime
@@ -45,7 +45,7 @@ struct ContentView: View {
                 }
                 sdk.setConfiguration(config)
             }
-            
+
             // (Optional), example of how to change duration at runtime
             Stepper(value: $duration, in: 20...120, step: 5) {
                 Text("Measurement Duration: \(duration.formatted(.number))")
