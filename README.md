@@ -73,11 +73,17 @@ struct ContentView: View {
         // (Optional), set showFPS. To show fps in the screening view. Defaults to false
         // (Optional), set recordingDelay. To set a initial countdown timer before recording starts. Defaults to 3
         // (Optional), set cameraPosition. To set the camera position. Defaults to front camera
-        let apiKey = "YOUR-API-KEY"
+        let apiKey = "YOUR_API_KEY_HERE"
 
         SmartSpectraView(apiKey: apiKey, configuration: config, showFps: false, recordingDelay: 3, cameraPosition: cameraPosition)
    }
 }
+```
+
+If you want to If you want to set the continuous mode as default, use the following configuration
+```swift
+// (Optional), set duration. Valid range for spot duration is between 20.0 and 120.0. Defaults to infinity when duration is not provided
+private var config: SmartSpectraConfiguration = ContinuousModeConfiguration(maxDuration: 30.0)
 ```
 
 > [!IMPORTANT]
