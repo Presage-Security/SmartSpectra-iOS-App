@@ -41,7 +41,7 @@ Select Add Package
 ## API Key
 
 You'll need an API key to use the SmartSpectra iOS SDK. You can register for an account and obtain an API key at https://physiology.presagetech.com.
-In this example usage repo look for the `SmartSpectraButtonView(apiKey: "YOUR_API_KEY_HERE")` line of [ContentView.swift](Test%20SmartSpectra%20SDK/ContentView.swift) for location to add your key.
+In this example app look for the `let apiKey = "YOUR-API-KEY"` line of [ContentView.swift](Test%20SmartSpectra%20SDK/ContentView.swift) for location to add your key.
 
 ## Usage
 ### Example Code
@@ -65,12 +65,17 @@ import SwiftUI
 import SmartSpectraIosSDK
 
 struct ContentView: View {
+    @State var cameraPosition: AVCaptureDevice.Position = .front
+    private var config: SmartSpectraConfiguration = SpotModeConfiguration(duration: 30.0) // (Optional), set duration. Valid range for spot duration is between 20.0 and 120.0. Defaults to 30.0
+
     var body: some View {
         // (Required), set apiKey. API key from https://physiology.presagetech.com
-        // (Optional), set spotDuration. Valid range for spot duration is between 20.0 and 120.0
-        // (Optional), set showFPS. To show fps in the screening view
+        // (Optional), set showFPS. To show fps in the screening view. Defaults to false
         // (Optional), set recordingDelay. To set a initial countdown timer before recording starts. Defaults to 3
-         SmartSpectraView(apiKey: "YOUR_API_KEY_HERE", spotDuration: 30.0, showFps: false, recordingDelay: 3)
+        // (Optional), set cameraPosition. To set the camera position. Defaults to front camera
+        let apiKey = "YOUR-API-KEY"
+
+        SmartSpectraView(apiKey: apiKey, configuration: config, showFps: false, recordingDelay: 3, cameraPosition: cameraPosition)
    }
 }
 ```

@@ -1,8 +1,19 @@
 import SwiftUI
+import AVFoundation
 import SmartSpectraIosSDK
 
 struct ContentView: View {
     @ObservedObject var sdk = SmartSpectraIosSDK.shared
+    @State var cameraPosition: AVCaptureDevice.Position = .front
+    @State var runningMode: SmartSpectraMode = .continuous
+    @State var duration: Double = 30.0
+    private var config: SmartSpectraConfiguration {
+        if runningMode == .spot  {
+            SpotModeConfiguration(duration: duration)
+        } else {
+            ContinuousModeConfiguration(maxDuration: duration)
+        }
+    }
 
     var body: some View {
 
@@ -12,7 +23,37 @@ struct ContentView: View {
             // (Optional), set spotDuration. Valid range for spot duration is between 20.0 and 120.0
             // (Optional), set showFPS. To show fps in the screening view
             // (Optional), set recordingDelay. To set a initial countdown timer before recording starts. Defaults to 3
-            SmartSpectraView(apiKey: "YOUR_API_KEY_HERE", spotDuration: 30.0, showFps: false, recordingDelay: 3)
+
+            let apiKey = "YOUR-API-KEY"
+
+            SmartSpectraView(apiKey: apiKey, configuration: config, showFps: false, recordingDelay: 3, cameraPosition: cameraPosition)
+            // (Optional), example of how to switch camera at runtime
+            Button(cameraPosition == .front ? "Switch to Back Camera": "Switch to Front Camera", systemImage: "camera.rotate") {
+                if cameraPosition == .front {
+                    cameraPosition = .back
+                } else {
+                    cameraPosition = .front
+                }
+                sdk.setCameraPosition(cameraPosition)
+            }
+            // (Optional), example of how to switch runningMode at runtime
+            Button(runningMode == .spot ? "Switch to Continuous" : "Switch to Spot", systemImage: runningMode == .spot ? "waveform.path" : "chart.dots.scatter") {
+                if runningMode == .spot {
+                    runningMode = .continuous
+                } else {
+                    runningMode = .spot
+                }
+                sdk.setConfiguration(config)
+            }
+            
+            // (Optional), example of how to change duration at runtime
+            Stepper(value: $duration, in: 20...120, step: 5) {
+                Text("Measurement Duration: \(duration.formatted(.number))")
+            }
+            .onChange(of: duration) {_ in
+                sdk.setConfiguration(config)
+            }
+
 
             // Scrolling view to view additional metrics from measurment
             ScrollView {
