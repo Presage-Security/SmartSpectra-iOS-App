@@ -376,8 +376,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Presage-Security/SmartSpectra-iOS-SDK";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = revision;
+				revision = f14e4e278c9bd99cbe91550806a491c9849dcf7b;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
